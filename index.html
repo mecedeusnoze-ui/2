@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kieed — Hatsune Miku Cover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;0,6..96,800;1,6..96,600&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Wee';
+      src: url('KaitouYokokuGothic.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --ink: #0d0e1e;
+      --paper: #f3f0e8;
+      --line: rgba(243, 240, 232, 0.18);
+      --font-display: 'Bodoni Moda', serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    img {
+      display: block;
+    }
+
+    .cover {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      aspect-ratio: 1371 / 2300;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .cover__bg,
+    .cover__art {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover__bg {
+      z-index: 1;
+    }
+
+    .cover__art {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .cover__scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 16%, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.65) 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .cover__top {
+      position: absolute;
+      top: 3.2%;
+      left: 4.5%;
+      right: 4.5%;
+      display: flex;
+      justify-content: space-between;
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: clamp(9px, 1.5vw, 11px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+      z-index: 4;
+    }
+
+    .cover__nameplate {
+      position: absolute;
+      top: 9.5%;
+      left: 4.5%;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      font-family: 'Wee', var(--font-display);
+      font-size: clamp(65px, 4.2vw, 38px);
+      font-weight: 700;
+      color: var(--paper);
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+      z-index: 4;
+      display: flex;
+      gap: 12px;
+    }
+
+    .cover__nameplate rt {
+      font-size: 0.4em;
+      font-weight: normal;
+      opacity: 0.85;
+      letter-spacing: 0;
+    }
+
+    .cover__masthead {
+      position: absolute;
+      top: 8.5%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--paper);
+      text-shadow: 0 2px 22px rgba(0, 0, 0, 0.55);
+      z-index: 4;
+    }
+
+    .cover__masthead .eyebrow {
+      display: block;
+      font-size: clamp(8px, 1.4vw, 10px);
+      letter-spacing: 0.5em;
+      margin-bottom: 6px;
+      margin-left: 0.5em;
+    }
+
+    .cover__masthead .wordmark {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.8rem, 12vw, 6rem);
+      letter-spacing: 0.02em;
+    }
+
+    .cover__line {
+      position: absolute;
+      left: 5.5%;
+      bottom: 15%;
+      max-width: 78%;
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(2rem, 8.5vw, 4.5rem);
+      line-height: 1.04;
+      text-shadow: 0 3px 24px rgba(0, 0, 0, 0.55);
+      z-index: 4;
+    }
+
+    .cover__bottom-right {
+      position: absolute;
+      right: 4.5%;
+      bottom: 3%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      z-index: 4;
+    }
+
+    .barcode {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5px;
+      height: 22px;
+    }
+
+    .barcode span {
+      display: block;
+      width: 2px;
+      background: var(--paper);
+      opacity: 0.9;
+    }
+
+    .cover__bottom-right .tag {
+      color: var(--paper);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      opacity: 0.85;
+    }
+
+    .caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      text-align: center;
+      color: rgba(243, 240, 232, 0.55);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      z-index: 4;
+    }
+
+    @keyframes textFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-text {
+      opacity: 0;
+      animation: textFadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    .cover__top {
+      animation-delay: 0.3s;
+    }
+
+    .cover__masthead {
+      animation-delay: 0.5s;
+    }
+
+    .cover__nameplate {
+      animation-delay: 0.6s;
+    }
+
+    .cover__line {
+      animation-delay: 0.8s;
+    }
+
+    .cover__bottom-right {
+      animation-delay: 1.0s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cover" id="cover">
+    <!-- Background Image Layer -->
+    <img class="cover__bg" src="piece-01.jpg" alt="Background layer">
+
+    <div class="cover__scrim"></div>
+
+    <div class="cover__top animate-text">
+      <span>09 March, 2026</span>
+      <span>Vol. 04</span>
+    </div>
+
+    <!-- Updated Ruby Structure for Vertical Layout with Side Furigana -->
+    <div class="cover__nameplate animate-text">
+      <div>
+        <ruby>初<rt>は</rt></ruby><ruby>音<rt>つね</rt></ruby>
+      </div>
+      <div>
+        <ruby>ミ<rt>み</rt></ruby><ruby>ク<rt>く</rt></ruby>
+      </div>
+    </div>
+
+    <div class="cover__masthead animate-text">
+      <span class="eyebrow">Japan</span>
+      <span class="wordmark">VOGUE</span>
+    </div>
+
+    <div class="cover__line animate-text">BACK<br>TO THE<br>2000s</div>
+
+    <div class="cover__bottom-right animate-text">
+      <div class="barcode" id="barcode"></div>
+      <span class="tag">Miku</span>
+    </div>
+
+    <span class="caption">Hatsune Miku — illustration by Kieed</span>
+  </div>
+
+  <script>
+    // Dynamic Barcode Generator
+    const barcode = document.getElementById('barcode');
+    let bars = '';
+    for (let i = 0; i < 22; i++) {
+      const w = [1, 2, 1, 3, 1, 1][i % 6];
+      const h = 8 + ((i * 5) % 14);
+      bars += `<span style="width:${w}px;height:${h}px;"></span>`;
+    }
+    barcode.innerHTML = bars;
+
+    // 3D Parallax Tilt Effect on Mouse Move
+    const coverArea = document.getElementById('cover');
+    const miku = document.getElementById('miku-tilt');
+
+    coverArea.addEventListener('mousemove', (e) => {
+      const rect = coverArea.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+
+      if (miku) {
+        miku.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      }
+    });
+
+    coverArea.addEventListener('mouseleave', () => {
+      if (miku) {
+        miku.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+        miku.style.transition = `transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)`;
+      }
+    });
+
+    coverArea.addEventListener('mouseenter', () => {
+      if (miku) {
+        miku.style.transition = `transform 0.1s ease-out`;
+      }
+    });
+  </script>
+
+</body>
+
+</html>
